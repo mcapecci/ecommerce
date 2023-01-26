@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 
 /**
- * The class <code>com.ecommerce.controller.application.ApplicationUtils</code> is a util
+ * The class <code>com.ecommerce.application.ApplicationUtils</code> is a util
  * class for operations over applications.
  * 
  * @author Eva Magalí Capecci

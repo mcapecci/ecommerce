@@ -30,7 +30,6 @@
 
 		<!-- Dependencies -->
 		<commons-lang3.version>3.11</commons-lang3.version>
-		<h2.version>2.1.214</h2.version>
 		<hibernate.envers.version>5.4.25.Final</hibernate.envers.version>
 		<hikaricp.version>4.0.3</hikaricp.version>
 		<httpclient.version>4.5</httpclient.version>
@@ -146,13 +145,6 @@
 				<artifactId>HikariCP</artifactId>
 				<version>${hikaricp.version}</version>
 			</dependency>
-			<!-- H2 -->
-			<dependency>
-			    <groupId>com.h2database</groupId>
-			    <artifactId>h2</artifactId>
-			    <version>${h2.version}</version>
-			    <scope>runtime</scope>  
-			</dependency>
 			<!-- hibernate-envers -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -235,6 +227,7 @@
 					<include>**/*.yml</include>
 					<include>**/*.xml</include>
 					<include>**/*.factories</include>
+					<include>**/*.sql</include>
 				</includes>
 			</resource>
 		</resources>

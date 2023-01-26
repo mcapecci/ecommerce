@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @EntityScan(basePackages = { "com.ecommerce.entity" })
 @Slf4j
 public class ServiceApplication {
+
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(ServiceApplication.class);
 		Environment env = application.run(args).getEnvironment();
