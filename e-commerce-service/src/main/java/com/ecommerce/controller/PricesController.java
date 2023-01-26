@@ -1,13 +1,18 @@
 package com.ecommerce.controller;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.criteria.PricesCriteria;
 import com.ecommerce.dto.response.PageResponseDto;
 import com.ecommerce.dto.response.PricesResponseDto;
 import com.ecommerce.dto.response.example.ExamplePagePricesResponseDto;
@@ -41,15 +46,20 @@ public class PricesController {
 	@GetMapping(value = "/prices")
 	@ApiOperation(value = "Get all prices.", nickname = "getAllPrices", httpMethod = "GET", notes = "Given all Prices", response = ExamplePagePricesResponseDto.class)
 	public ResponseEntity<PageResponseDto<PricesResponseDto>> getAll(
+			@RequestParam(name = "productId", required = false) Optional<Long> productId,
+			@RequestParam(name = "brandId", required = false) Optional<Long> brandId,
+			@RequestParam(name = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<LocalDateTime> date,
 			@RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
-			@RequestParam(name = "sortDirection", required = false, defaultValue = "DESC") Direction sortDirection,
+			@RequestParam(name = "sortDirection", required = false, defaultValue = "ASC") Direction sortDirection,
 			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
 
 		log.debug("Entering PricesController getAll [sortBy]: {} [sortDirection]: {} [page]: {} [size]: {}", sortBy,
 				sortDirection, page, size);
 
-		PageResponseDto<PricesResponseDto> response = service.findAll(sortBy, sortDirection, page, size);
+		PricesCriteria criteria = PricesCriteria.builder().brandId(brandId).productId(productId).date(date).build();
+
+		PageResponseDto<PricesResponseDto> response = service.findAll(criteria, sortBy, sortDirection, page, size);
 
 		log.debug("Leaving PricesController getAll");
 
