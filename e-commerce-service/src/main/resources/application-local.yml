@@ -1,0 +1,6 @@
+# Se agregan las properties propias del proyecto
+#
+# MS Settings.
+#
+ecommerce:
+    base-url: ecommerce
