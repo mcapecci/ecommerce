@@ -1,0 +1,37 @@
+# Global settings.
+
+# Profile settings, no eliminar el service.
+spring:
+  application:
+    name: '@project.artifactId@'
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  cloud:
+    config:
+      fail-fast: false
+      uri: ${SPRING_CONFIG_URI:http://localhost:8091}
+  main:
+    allow-bean-definition-overriding: true
+
+# App settings.
+server:
+  port: 8080
+  servlet:
+    context-path: /ecommerce
+
+# Swagger settings.
+info:
+  app:
+    version: '@project.version@'
+    name: '@project.name@'
+    description: '@project.description@'
+    package_controller: com.ecommerce
+---
+# Environments
+spring:
+  profiles: ${SPRING_PROFILES:local}
+  cloud:
+    config:
+      fail-fast: false
+  main:
+    allow-bean-definition-overriding: true

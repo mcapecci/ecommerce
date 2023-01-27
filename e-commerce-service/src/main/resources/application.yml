@@ -1,0 +1,30 @@
+#
+# Global local settings.
+#
+        
+# Loggers settings.
+logging:
+  level:
+    root: INFO
+    com.ecommerce: INFO
+
+# Swagger settings.
+springfox: 
+  documentation: 
+    swagger: 
+      v2: 
+        path: /swagger.json
+             
+# Actuator settings.
+management:
+  server:
+    add-application-context-header: false
+    servlet:
+      context-path: /management
+  health: 
+    db.enabled: false
+    diskspace.enabled: false
+  endpoints: 
+    web: 
+      exposure: 
+        include: "*"

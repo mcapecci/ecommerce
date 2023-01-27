@@ -1,29 +1,25 @@
-# README #
+# ECOMMERCE Micro Service #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Short description, explaining service purpose.
 
-### What is this repository for? ###
+### Available endpoints ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+#### Prices
+* `GET   /prices?brandId=<brandId>&productId=<productId>&date=<date>&sortBy=<sortBy>&sortDirection=<sortDirection>&page=<page>&size=<size>`: get a prices by params
 
-### How do I get set up? ###
+### Data Model ###
+This service depends on the following data model
+![](docs/db-model.png)
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* `Brand`: holds data related to Brands. 
 
-### Contribution guidelines ###
+* `Product`: holds data related to Products.
 
-* Writing tests
-* Code review
-* Other guidelines
+* `Prices`: this holds the binding between Brands and Products to define the final price.
 
-### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+### Running your service ###
+The entry point for this application is located in the class `ServiceApplication`.
+* The local server will be accessible from the address: `http://localhost:8080/ecommerce`
+* The local server for swagger ui: `http://localhost:8080/ecommerce/swagger-ui.html#/`
+* The local database will be accessible from the address: `http://localhost:8080/ecommerce/h2`
