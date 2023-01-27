@@ -47,6 +47,8 @@ public class PricesResponseDto implements Serializable {
 	private LocalDateTime endDate;
 
 	private BigDecimal price;
+	
+	private String currency;
 
 	private Integer priceList;
 

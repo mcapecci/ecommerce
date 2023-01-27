@@ -28,7 +28,7 @@ public class PricesMapperImpl implements IPricesMapper {
 
 		return PricesResponseDto.builder().brandId(entity.getBrand().getId()).productId(entity.getProduct().getId())
 				.startDate(entity.getStartDate()).endDate(entity.getEndDate()).price(entity.getPrice())
-				.priceList(entity.getPriceList()).build();
+				.currency(entity.getCurrency().getCurrencyCode()).priceList(entity.getPriceList()).build();
 
 	}
 

@@ -58,9 +58,10 @@ public class PricesServiceImpl implements IPricesService {
 
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
 
-		Page<PricesEntity> pageEntity = repository.findAll(PricesSpecification.createSpeficication(criteria), pageable);
-
-		Map<Pair<Long, Long>, Optional<PricesEntity>> priorityList = pageEntity.stream()
+		//Page<PricesEntity> pageEntity = repository.findAll(PricesSpecification.createSpeficication(criteria), pageable);
+		List<PricesEntity> entityList = repository.findAll(PricesSpecification.createSpeficication(criteria));
+		
+		Map<Pair<Long, Long>, Optional<PricesEntity>> priorityList = entityList.stream()
 				.collect(Collectors.groupingBy(p -> Pair.of(p.getBrand().getId(), p.getProduct().getId()),
 						Collectors.maxBy(Comparator.comparingInt(PricesEntity::getPriority))));
 

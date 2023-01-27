@@ -3,7 +3,7 @@
 # MS Settings.
 #
 ecommerce:
-    base-url: api/v1
+    base-url: /api/v1
 
 spring:
   h2:
@@ -19,5 +19,5 @@ spring:
     #username: ${DB_USERNAME}
     #password: ${DB_PASSWORD}
   jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
     #show-sql: true
