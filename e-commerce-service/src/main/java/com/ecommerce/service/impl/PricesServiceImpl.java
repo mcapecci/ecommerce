@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +39,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class PricesServiceImpl implements IPricesService {
 
+	private static final String CACHE_NAME = "prices";
+	
 	/** PricesRepository */
 	@Autowired
 	private PricesRepository repository;
@@ -52,6 +55,7 @@ public class PricesServiceImpl implements IPricesService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
+	@Cacheable(cacheNames = CACHE_NAME, keyGenerator = "customKeyGenerator")
 	public PageResponseDto<PricesResponseDto> findAll(PricesCriteria criteria, String sortBy, Direction sortDirection,
 			Integer page, Integer size) {
 		log.debug("Entering PricesService findAll");

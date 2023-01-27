@@ -3,6 +3,7 @@ package com.ecommerce;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.core.env.Environment;
 
 import com.ecommerce.application.ApplicationUtils;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @SpringBootApplication
 @EntityScan(basePackages = { "com.ecommerce.entity" })
+@EnableCaching
 @Slf4j
 public class ServiceApplication {
 
