@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PricesServiceImpl implements IPricesService {
 
 	private static final String CACHE_NAME = "prices";
-	
+
 	/** PricesRepository */
 	@Autowired
 	private PricesRepository repository;
@@ -62,15 +62,14 @@ public class PricesServiceImpl implements IPricesService {
 
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
 
-		//Page<PricesEntity> pageEntity = repository.findAll(PricesSpecification.createSpeficication(criteria), pageable);
 		List<PricesEntity> entityList = repository.findAll(PricesSpecification.createSpeficication(criteria));
-		
+
 		Map<Pair<Long, Long>, Optional<PricesEntity>> priorityList = entityList.stream()
 				.collect(Collectors.groupingBy(p -> Pair.of(p.getBrand().getId(), p.getProduct().getId()),
 						Collectors.maxBy(Comparator.comparingInt(PricesEntity::getPriority))));
 
 		List<PricesResponseDto> contentList = priorityList.values().stream()
-				.map(entityOpt -> mapper.toProductResponseDto(entityOpt.get())).filter(Objects::nonNull)
+				.map(entityOpt -> mapper.toPricesResponseDto(entityOpt.get())).filter(Objects::nonNull)
 				.collect(Collectors.toList());
 
 		Page<PricesResponseDto> pageResponse = getPage(pageable, contentList);

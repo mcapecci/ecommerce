@@ -9,6 +9,7 @@ import com.ecommerce.entity.PricesEntity;
 /**
  * PricesRepository
  *
+ * @author Eva Magalí Capecci
  */
 @Repository
 public interface PricesRepository extends JpaRepository<PricesEntity, Long>, JpaSpecificationExecutor<PricesEntity> {
