@@ -18,6 +18,12 @@ import com.ecommerce.dto.error.ErrorValueDto;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * ExceptionHandlerController
+ * 
+ * @author Eva Magalí Capecci
+ * 
+ */
 @RestControllerAdvice
 @Slf4j
 public class ExceptionHandlerController {

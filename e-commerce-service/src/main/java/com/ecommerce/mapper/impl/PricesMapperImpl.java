@@ -21,7 +21,7 @@ public class PricesMapperImpl implements IPricesMapper {
 	 *
 	 */
 	@Override
-	public PricesResponseDto toProductResponseDto(PricesEntity entity) {
+	public PricesResponseDto toPricesResponseDto(PricesEntity entity) {
 		if (Objects.isNull(entity)) {
 			return null;
 		}

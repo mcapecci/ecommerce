@@ -26,7 +26,7 @@
 		<!-- Setup -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>11</java.version>
-		<e-commerce-project.version>0.0.1</e-commerce-project.version>
+		<e-commerce-project.version>0.0.2</e-commerce-project.version>
 
 		<!-- Dependencies -->
 		<commons-lang3.version>3.11</commons-lang3.version>

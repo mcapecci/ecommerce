@@ -5,6 +5,10 @@ form. Please keep the structure of this file as it is described here [Keep a Cha
 We are following [Semantic Versioning](https://semver.org/spec/v2.0.0.html) for our standard to assign the version
 number with every new release cycle. 
 
+## [0.0.2]
+### Added
+- API docs
+
 ## [0.0.1]
 ### Added
 - e-commerce is created.

@@ -8,6 +8,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/**
+ * TestConfiguration
+ * 
+ * @author Eva Magalí Capecci
+ *
+ */
 @EnableAutoConfiguration
 @EntityScan(basePackages = { "com.ecommerce.entity" })
 @ComponentScan(basePackages = { "com.ecommerce.*" })

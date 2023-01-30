@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.ecommerce.configuration.TestConfiguration;
 
+/**
+ * PricesControllerTest
+ * 
+ * @author Eva Magalí Capecci
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = TestConfiguration.class)
@@ -37,10 +44,23 @@ public class PricesControllerTest {
 	private WebApplicationContext webApplicationContext;
 
 	private static String baseUrl = "/api/v1";
+	private static MultiValueMap<String, String> params;
 
 	@Before
 	public void setUp() throws Exception {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+	}
+
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		params = new LinkedMultiValueMap<>();
+		params.add("brandId", "1");
+		params.add("productId", "35455");
+		params.add("date", "");
+		params.add("sortBy", "id");
+		params.add("direction", "ASC");
+		params.add("page", "0");
+		params.add("size", "5");
 	}
 
 	/**
@@ -54,15 +74,7 @@ public class PricesControllerTest {
 	 */
 	@Test
 	public void getAllTest1() throws Exception {
-
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("brandId", "1");
-		params.add("productId", "35455");
-		params.add("date", "2020-06-14T10:00:00");
-		params.add("sortBy", "id");
-		params.add("direction", "ASC");
-		params.add("page", "0");
-		params.add("size", "5");
+		params.set("date", "2020-06-14T10:00:00");
 
 		mockMvc.perform(get(baseUrl + "/prices").params(params)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(1)))
@@ -89,14 +101,7 @@ public class PricesControllerTest {
 	@Test
 	public void getAllTest2() throws Exception {
 
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("brandId", "1");
-		params.add("productId", "35455");
-		params.add("date", "2020-06-14T16:00:00");
-		params.add("sortBy", "id");
-		params.add("direction", "ASC");
-		params.add("page", "0");
-		params.add("size", "5");
+		params.set("date", "2020-06-14T16:00:00");
 
 		mockMvc.perform(get(baseUrl + "/prices").params(params)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(1)))
@@ -122,14 +127,7 @@ public class PricesControllerTest {
 	@Test
 	public void getAllTest3() throws Exception {
 
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("brandId", "1");
-		params.add("productId", "35455");
-		params.add("date", "2020-06-14T21:00:00");
-		params.add("sortBy", "id");
-		params.add("direction", "ASC");
-		params.add("page", "0");
-		params.add("size", "5");
+		params.set("date", "2020-06-14T21:00:00");
 
 		mockMvc.perform(get(baseUrl + "/prices").params(params)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(1)))
@@ -155,14 +153,7 @@ public class PricesControllerTest {
 	@Test
 	public void getAllTest4() throws Exception {
 
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("brandId", "1");
-		params.add("productId", "35455");
-		params.add("date", "2020-06-15T10:00:00");
-		params.add("sortBy", "id");
-		params.add("direction", "ASC");
-		params.add("page", "0");
-		params.add("size", "5");
+		params.set("date", "2020-06-15T10:00:00");
 
 		mockMvc.perform(get(baseUrl + "/prices").params(params)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(1)))
@@ -188,14 +179,7 @@ public class PricesControllerTest {
 	@Test
 	public void getAllTest5() throws Exception {
 
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("brandId", "1");
-		params.add("productId", "35455");
-		params.add("date", "2020-06-16T21:00:00");
-		params.add("sortBy", "id");
-		params.add("direction", "ASC");
-		params.add("page", "0");
-		params.add("size", "5");
+		params.set("date", "2020-06-16T21:00:00");
 
 		mockMvc.perform(get(baseUrl + "/prices").params(params)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(1)))

@@ -14,7 +14,7 @@ import com.ecommerce.dto.response.PricesResponseDto;
 public interface IPricesService {
 
 	/**
-	 * Method to find all prices
+	 * Method to find all prices. It is possible to filter the search by several fields
 	 * 
 	 * @param criteria
 	 * @param sortBy
