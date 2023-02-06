@@ -1,32 +1,22 @@
 package com.ecommerce.service.impl;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ecommerce.criteria.PricesCriteria;
-import com.ecommerce.dto.response.PageResponseDto;
 import com.ecommerce.dto.response.PricesResponseDto;
+import com.ecommerce.entity.BrandEntity;
 import com.ecommerce.entity.PricesEntity;
+import com.ecommerce.entity.ProductEntity;
+import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.mapper.IPricesMapper;
+import com.ecommerce.repository.BrandRepository;
 import com.ecommerce.repository.PricesRepository;
+import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.service.IPricesService;
-import com.ecommerce.specification.PricesSpecification;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,11 +29,17 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class PricesServiceImpl implements IPricesService {
 
-	private static final String CACHE_NAME = "prices";
-
 	/** PricesRepository */
 	@Autowired
 	private PricesRepository repository;
+
+	/** BrandRepository */
+	@Autowired
+	private BrandRepository brandRepository;
+
+	/** ProductRepository */
+	@Autowired
+	private ProductRepository productRepository;
 
 	/** IPricesMapper */
 	@Autowired
@@ -55,44 +51,19 @@ public class PricesServiceImpl implements IPricesService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	@Cacheable(cacheNames = CACHE_NAME, keyGenerator = "customKeyGenerator")
-	public PageResponseDto<PricesResponseDto> findAll(PricesCriteria criteria, String sortBy, Direction sortDirection,
-			Integer page, Integer size) {
-		log.debug("Entering PricesService findAll");
+	public PricesResponseDto findByProductBrandAndDate(Long productId, Long brandId, LocalDateTime date) {
+		log.debug("Entering PricesService findByProductBrandAndDate");
 
-		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
+		BrandEntity brand = brandRepository.findById(brandId)
+				.orElseThrow(() -> new ResourceNotFoundException("Brand with id:" + brandId + " not found"));
+		ProductEntity product = productRepository.findById(productId)
+				.orElseThrow(() -> new ResourceNotFoundException("Product with id:" + productId + " not found"));
 
-		List<PricesEntity> entityList = repository.findAll(PricesSpecification.createSpeficication(criteria));
-
-		Map<Pair<Long, Long>, Optional<PricesEntity>> priorityList = entityList.stream()
-				.collect(Collectors.groupingBy(p -> Pair.of(p.getBrand().getId(), p.getProduct().getId()),
-						Collectors.maxBy(Comparator.comparingInt(PricesEntity::getPriority))));
-
-		List<PricesResponseDto> contentList = priorityList.values().stream()
-				.map(entityOpt -> mapper.toPricesResponseDto(entityOpt.get())).filter(Objects::nonNull)
-				.collect(Collectors.toList());
-
-		Page<PricesResponseDto> pageResponse = getPage(pageable, contentList);
-		log.debug("Leaving PricesService findAll");
-
-		return new PageResponseDto<>(pageResponse.getContent(), pageResponse.getTotalElements(),
-				pageResponse.getNumber(), pageable.getPageSize(), pageResponse.getTotalPages());
-
-	}
-
-	/**
-	 * getPage
-	 * 
-	 * @param pageable
-	 * @param contentList
-	 * @return
-	 */
-	private Page<PricesResponseDto> getPage(Pageable pageable, List<PricesResponseDto> contentList) {
-		int start = (int) pageable.getOffset();
-		int end = ((start + pageable.getPageSize()) > contentList.size() ? contentList.size()
-				: (start + pageable.getPageSize()));
-
-		return new PageImpl<>(contentList.subList(start, end), pageable, contentList.size());
+		Optional<PricesEntity> entityOpt = repository
+				.findFirstByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						productId, brandId, date, date);
+		log.debug("Leaving PricesService findByProductBrandAndDate");
+		return mapper.toPricesResponseDto(entityOpt.isPresent() ? entityOpt.get() : null);
 	}
 
 }

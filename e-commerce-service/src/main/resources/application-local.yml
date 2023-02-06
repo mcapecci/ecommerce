@@ -20,12 +20,4 @@ spring:
     #password: ${DB_PASSWORD}
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    #show-sql: true
-  #Redis Config
-  cache:
-    type: redis
-    redis:
-      time-to-live: 20000
-  redis:
-    host: localhost
-    port: 6379
+    show-sql: true

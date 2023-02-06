@@ -1,10 +1,8 @@
 package com.ecommerce.controller;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.criteria.PricesCriteria;
-import com.ecommerce.dto.response.PageResponseDto;
 import com.ecommerce.dto.response.PricesResponseDto;
-import com.ecommerce.dto.response.example.ExamplePagePricesResponseDto;
 import com.ecommerce.service.IPricesService;
 
 import io.swagger.annotations.Api;
@@ -50,27 +45,20 @@ public class PricesController {
 	 * @param size
 	 * @return
 	 */
-	@GetMapping(value = "/prices")
-	@ApiOperation(value = "Get all prices.", nickname = "getAllPrices", httpMethod = "GET", notes = "Given all Prices", response = ExamplePagePricesResponseDto.class)
-	public ResponseEntity<PageResponseDto<PricesResponseDto>> getAll(
-			@ApiParam(name = "productId", value = "The Product id") @RequestParam(name = "productId", required = false) Optional<Long> productId,
-			@ApiParam(name = "brandId", value = "The Brand id") @RequestParam(name = "brandId", required = false) Optional<Long> brandId,
-			@ApiParam(name = "date", value = "Date of application") @RequestParam(name = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<LocalDateTime> date,
-			@ApiParam(name = "sortBy", value = "Sort items") @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
-			@ApiParam(name = "sortDirection", value = "Enumeration for sort order:\r\n"
-					+ "             * `ASC` - Ascending, from A to Z\r\n"
-					+ "             * `DESC` - Descending, from Z to A") @RequestParam(name = "sortDirection", required = false, defaultValue = "ASC") Direction sortDirection,
-			@ApiParam(name = "page", value = "The page to be returned") @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-			@ApiParam(name = "size", value = "The number of items of that page") @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+	@GetMapping(value = "/price")
+	@ApiOperation(value = "Get price.", nickname = "getPrice", httpMethod = "GET", notes = "Given Price by product, brand and date", response = PricesResponseDto.class)
+	public ResponseEntity<PricesResponseDto> getPriceByProductBrandAndDate(
+			@ApiParam(name = "productId", value = "The Product id") @RequestParam(name = "productId", required = true) Long productId,
+			@ApiParam(name = "brandId", value = "The Brand id") @RequestParam(name = "brandId", required = true) Long brandId,
+			@ApiParam(name = "date", value = "Date of application") @RequestParam(name = "date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date
+			) {
 
-		log.debug("Entering PricesController getAll [sortBy]: {} [sortDirection]: {} [page]: {} [size]: {}", sortBy,
-				sortDirection, page, size);
+		log.debug("Entering PricesController getPriceByProductBrandAndDate [productId]: {} [brandId]: {} [date]{}", productId,
+				brandId, date);
 
-		PricesCriteria criteria = PricesCriteria.builder().brandId(brandId).productId(productId).date(date).build();
+		PricesResponseDto response = service.findByProductBrandAndDate(productId, brandId, date);
 
-		PageResponseDto<PricesResponseDto> response = service.findAll(criteria, sortBy, sortDirection, page, size);
-
-		log.debug("Leaving PricesController getAll");
+		log.debug("Leaving PricesController getPriceByProductBrandAndDate");
 
 		return ResponseEntity.ok(response);
 	}

@@ -1,9 +1,7 @@
 package com.ecommerce.service;
 
-import org.springframework.data.domain.Sort.Direction;
+import java.time.LocalDateTime;
 
-import com.ecommerce.criteria.PricesCriteria;
-import com.ecommerce.dto.response.PageResponseDto;
 import com.ecommerce.dto.response.PricesResponseDto;
 
 /**
@@ -14,16 +12,13 @@ import com.ecommerce.dto.response.PricesResponseDto;
 public interface IPricesService {
 
 	/**
-	 * Method to find all prices. It is possible to filter the search by several fields
+	 * Method to find price by productId, brandId and date
 	 * 
-	 * @param criteria
-	 * @param sortBy
-	 * @param sortDirection
-	 * @param page
-	 * @param size
+	 * @param productId
+	 * @param brandId
+	 * @param date
 	 * @return
 	 */
-	PageResponseDto<PricesResponseDto> findAll(PricesCriteria criteria, String sortBy, Direction sortDirection,
-			Integer page, Integer size);
+	PricesResponseDto findByProductBrandAndDate(Long productId, Long brandId, LocalDateTime date);
 
 }

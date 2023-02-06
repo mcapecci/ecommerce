@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.ecommerce.dto.error.ErrorInformationDto;
 import com.ecommerce.dto.error.ErrorResponseDto;
 import com.ecommerce.dto.error.ErrorValueDto;
+import com.ecommerce.exception.ResourceNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,6 +59,22 @@ public class ExceptionHandlerController {
 
 		log.error("handled Exception by ExceptionHandlerController.handleException", ex);
 		return getErrorResponse(HttpStatus.BAD_REQUEST, ex, 2);
+	}
+
+	/**
+	 * <p>
+	 * Method that management the unknown errors.
+	 *
+	 * @param ex ResourceNotFoundException
+	 * @return Response entity.
+	 *
+	 * @see ExceptionHandler
+	 */
+	@ExceptionHandler(value = ResourceNotFoundException.class)
+	public ResponseEntity<ErrorResponseDto> handleException(ResourceNotFoundException ex) {
+
+		log.error("handled Exception by ExceptionHandlerController.handleException", ex);
+		return getErrorResponse(HttpStatus.NOT_FOUND, ex, 3);
 	}
 
 	/**
